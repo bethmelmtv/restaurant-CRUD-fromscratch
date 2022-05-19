@@ -1,25 +1,39 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
+import { useState, useEffefct } from 'react';
+import { getUser } from './services/fetch-utils';
+import { Browser as Router, Switch, NavLink, Route, Redirect } from 'react-router-dom';
+import CreatePage from './CreatePage';
+import AuthPage from './AuthPage';
+import ListPage from './ListPage';
+import UpdatePage from './UpdatePage';
+import './App.css';
+import { logout } from './services/fetch-utils';
 
-function App() {
+export default function App() {
+  //make debit card... (states) so children can pass info back to parents via a callback/debit card
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Switch>
+        <Route exact path="/">
+          <AuthPage />
+        </Route>
+
+        <Route exact path="">
+          <CreatePage />
+        </Route>
+
+        <Route exact path="">
+          <ListPage />
+        </Route>
+
+        <Route exact path="">
+          <UpdatePage />
+        </Route>
+      </Switch>
+    </>
   );
 }
 
-export default App;
+// export default App;
