@@ -37,7 +37,12 @@ export async function getTree() {
 }
 
 export async function getTreebyId(id) {
-  const response = await client.from('types_of_trees').select().match({ id }).single();
+  const response = await client.from('types_of_trees').select('*').match({ id }).single();
 
+  return checkError(response);
+}
+
+export async function deleteTree(id) {
+  const response = await client.from('types_of_trees').delete().match({ id });
   return checkError(response);
 }

@@ -1,21 +1,36 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { getUser, signIn, signUp } from './services/fetch-utils';
 
-export default function AuthPage({ setUser }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export default function AuthPage({ setEmail, setToken }) {
+  const [signInEmail, setSignInEmail] = useState('');
+  const [signInPassword, setSignInPassword] = useState('');
+  const [signUpEmail, setSignUpEmail] = useState('');
+  const [signUpPassword, setSignUpPassword] = useState('');
+
+  function clearForms() {
+    setSignInEmail('');
+    setSignInPassword('');
+    setSignUpEmail('');
+    setSignUpPassword('');
+  }
 
   async function handleSignIn(e) {
     e.preventDefault();
-    await signIn(email, password);
-    const user = getUser();
-    setUser(user);
+    await signIn(signInEmail, signInPassword);
+    const user = await getUser();
+    setToken(user.access_token);
+    setEmail(user.user.email);
+    console.log(user);
+    clearForms();
   }
 
   async function handleSignUp(e) {
     e.preventDefault();
-    const user = await signUp(email, password);
-    setUser(user);
+    await signUp(signUpEmail, signUpPassword);
+    const user = await getUser();
+    setToken(user.access_token);
+    setEmail(user.user.email);
+    clearForms();
   }
 
   return (
@@ -24,24 +39,34 @@ export default function AuthPage({ setUser }) {
       <form onSubmit={handleSignIn}>
         <label>
           Email
-          <input onChange={(e) => setEmail(e.target.value)}></input>
+          <input value={signInEmail} onChange={(e) => setSignInEmail(e.target.value)} />
         </label>
         <label>
           Password
-          <input onChange={(e) => setPassword(e.target.value)}></input>
+          <input
+            value={signInPassword}
+            type="password"
+            onChange={(e) => setSignInPassword(e.target.value)}
+          />
         </label>
+        <button>Sigh In</button>
       </form>
 
       <form onSubmit={handleSignUp}>
         <h1>Sign Up</h1>
         <label>
           Email
-          <input onChange={(e) => setEmail(e.target.value)}></input>
+          <input value={signUpEmail} onChange={(e) => setSignUpEmail(e.target.value)} />
         </label>
         <label>
           Password
-          <input onChange={(e) => setPassword(e.target.value)}></input>
+          <input
+            value={signUpPassword}
+            type="password"
+            onChange={(e) => setSignUpPassword(e.target.value)}
+          />
         </label>
+        <button>Sign Up</button>
       </form>
     </div>
   );
