@@ -34,7 +34,7 @@ export default function App() {
       {token && (
         <>
           <Link to="/create">Create</Link>
-          <Link to="/list">List</Link>
+          <Link to="/items">List</Link>
           <button onClick={logout}>LogOut</button>
         </>
       )}

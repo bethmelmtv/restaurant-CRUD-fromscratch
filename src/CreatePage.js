@@ -15,7 +15,7 @@ export default function CreatePage() {
       longevity: formLongevity,
       height: formHeight,
     });
-    history.push('./list');
+    history.push('./items');
   }
   return (
     <div>

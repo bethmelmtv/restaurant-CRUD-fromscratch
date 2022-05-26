@@ -20,7 +20,7 @@ export async function logout() {
 }
 
 export async function createTree(tree) {
-  const response = await client.from('types_of_trees').insert([tree]);
+  const response = await client.from('types_of_trees').insert(tree);
 
   return checkError(response);
 }
@@ -32,7 +32,7 @@ export async function updateTree(id, newTree) {
 
 export async function getTrees() {
   const response = await client.from('types_of_trees').select('*');
-
+  console.log(response);
   return checkError(response);
 }
 
