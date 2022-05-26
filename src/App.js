@@ -1,25 +1,64 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
+import './App.css';
+import { useState, useEffect } from 'react';
+import { logout, getUser } from './services/fetch-utils';
+import { BrowserRouter as Router, Switch, Link, Route, Redirect } from 'react-router-dom';
+import CreatePage from './CreatePage';
+import AuthPage from './AuthPage';
+import ListPage from './ListPage';
+import UpdatePage from './UpdatePage';
 import './App.css';
 
-function App() {
+export default function App() {
+  //make debit card (states) so children can pass info back to parents via a callback/debit card
+  //tracks user state, passing the setUser callback to the AuthPage
+
+  const [email, setEmail] = useState('');
+  const [token, setToken] = useState('');
+
+  useEffect(() => {
+    async function fetch() {
+      const user = await getUser();
+      // console.log(user);
+      if (user) {
+        setEmail(user.user.email);
+        setToken(user.access_token);
+      }
+    }
+    fetch();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    //If user is logged in, header contains logout button and links to the Create and List pages.
+    <Router>
+      {token && (
+        <>
+          <p>{email}</p>
+          <Link to="/create">Create</Link>
+          <Link to="/items">List</Link>
+          <button onClick={logout}>LogOut</button>
+        </>
+      )}
+      <div>
+        <Switch>
+          <Route exact path="/">
+            {!token ? (
+              <AuthPage to="/" setToken={setToken} setEmail={setEmail} />
+            ) : (
+              <Redirect to="/items" />
+            )}
+          </Route>
+          <Route exact path="/items">
+            {!token ? <Redirect to="/" /> : <ListPage />}
+          </Route>
+          <Route exact path="/create">
+            {!token ? <Redirect to="/" /> : <CreatePage />}
+          </Route>
+          <Route exact path="/items/:id">
+            {!token ? <Redirect to="/" /> : <UpdatePage />}
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
-
-export default App;
