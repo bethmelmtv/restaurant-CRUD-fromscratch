@@ -21,7 +21,7 @@ export default function UpdatePage() {
 
   async function handleDeleteClick() {
     await deleteTree(id);
-    history.push('./list');
+    history.push('/items');
   }
 
   async function handleUpdate(e) {
@@ -32,7 +32,7 @@ export default function UpdatePage() {
       longevity: formLongevity,
       city: formHeight,
     });
-    history.push('/list');
+    history.push('/items');
   }
 
   return (

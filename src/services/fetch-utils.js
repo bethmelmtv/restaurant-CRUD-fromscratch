@@ -30,8 +30,8 @@ export async function updateTree(id, newTree) {
   return checkError(response);
 }
 
-export async function getTree() {
-  const response = await client.from('types_of_trees').select();
+export async function getTrees() {
+  const response = await client.from('types_of_trees').select('*');
 
   return checkError(response);
 }

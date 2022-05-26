@@ -19,7 +19,7 @@ export default function App() {
   useEffect(() => {
     async function fetch() {
       const user = await getUser();
-      console.log(user);
+      // console.log(user);
       if (user) {
         setEmail(user.user.email);
         setToken(user.access_token);
