@@ -20,7 +20,6 @@ export default function AuthPage({ setEmail, setToken }) {
     const user = await getUser();
     setToken(user.access_token);
     setEmail(user.user.email);
-    console.log(user);
     clearForms();
   }
 

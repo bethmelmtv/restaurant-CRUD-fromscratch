@@ -33,6 +33,7 @@ export default function App() {
     <Router>
       {token && (
         <>
+          <p>{email}</p>
           <Link to="/create">Create</Link>
           <Link to="/items">List</Link>
           <button onClick={logout}>LogOut</button>

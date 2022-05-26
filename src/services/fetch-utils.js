@@ -32,7 +32,6 @@ export async function updateTree(id, newTree) {
 
 export async function getTrees() {
   const response = await client.from('types_of_trees').select('*');
-  console.log(response);
   return checkError(response);
 }
 
